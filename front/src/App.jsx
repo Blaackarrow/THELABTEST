@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import reactLogo from "./assets/react.svg";
 import AddEvent from "./components/AddEvent/AddEvent";
-import Event from "./components/Evenement/event";
+import Event from "./components/Evenement/Event";
 
 function App() {
   const [inputNameValue, setInputNameValue] = useState("");
@@ -10,7 +10,6 @@ function App() {
   const [inputPasswordValue, setInputPasswordValue] = useState("");
   const [inputAgeValue, setInputAgeValue] = useState("");
   const [inputLastNameValue, setInputLastNameValue] = useState("");
-  const [users, setUsers] = useState({});
 
   const handleNameChange = (e) => {
     setInputNameValue(e.target.value);
@@ -39,25 +38,23 @@ function App() {
       is_admin: false,
       date_de_naissance: inputAgeValue,
     };
-    setUsers(user);
+    console.log('user :>>', user);
+    fetch(`http://localhost:${import.meta.env.VITE_API_PORT}/users`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
-  useEffect(() => {
-    // console.log(users);
-    // fetch(`http://localhost:${import.meta.env.VITE_API_PORT}/users`, {
-    //   method: "POST",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(users),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     console.log(data);
-    //   })
-    //   .catch((error) => {
-    //     console.error("Error:", error);
-    //   });
-  }, []);
+
 
   return (
     <>

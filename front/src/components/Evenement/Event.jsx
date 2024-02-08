@@ -5,8 +5,9 @@ export default function Event() {
   const [events, setEvents] = useState([]);
   const [disabled, setDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
+  const [email, setEmail] = useState("");
   // console.log('selectedEvent', selectedEvent);
+  // console.log('email :>>', email);
 
   useEffect(() => {
     fetch(`http://localhost:${import.meta.env.VITE_API_PORT}/events`, {
@@ -24,6 +25,7 @@ export default function Event() {
         console.error("Error:", error);
       });
   }, [isLoading]);
+
   const handleRegisterAnEvent = (e, event_id, user_id) => {
     e.preventDefault();
     setIsLoading(true);
@@ -37,8 +39,6 @@ export default function Event() {
       .then((response) => response.json())
       .then((data) => {
         setIsLoading(false);
-        setDisabled(true);
-
         console.log("succes", data);
       })
       .catch((error) => {
@@ -53,6 +53,7 @@ export default function Event() {
         type="text"
         placeholder="Votre Adresse mail"
         onChange={(e) => setEmail(e.target.value)}
+        value={email}
       />
       <div className="event">
         {events.map((event, index) => (
@@ -62,8 +63,7 @@ export default function Event() {
             <p>{event.address}</p>
             <p>QUANTITE : {event.quantity}</p>
             <button
-              disabled={disabled}
-              onClick={(e) => handleRegisterAnEvent(e, event.id, 3)}
+              onClick={(e) => handleRegisterAnEvent(e, event.id, 45)}
             >
               SELECTIONNER
             </button>
