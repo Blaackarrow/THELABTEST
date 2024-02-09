@@ -3,6 +3,7 @@ import "./App.css";
 import reactLogo from "./assets/react.svg";
 import AddEvent from "./components/AddEvent/AddEvent";
 import Event from "./components/Evenement/Event";
+import Discount from "./components/Discount/Discount";
 
 function App() {
   const [inputNameValue, setInputNameValue] = useState("");
@@ -38,7 +39,7 @@ function App() {
       is_admin: false,
       date_de_naissance: inputAgeValue,
     };
-    console.log('user :>>', user);
+    console.log("user :>>", user);
     fetch(`http://localhost:${import.meta.env.VITE_API_PORT}/users`, {
       method: "POST",
       headers: {
@@ -54,7 +55,6 @@ function App() {
         console.error("Error:", error);
       });
   };
-
 
   return (
     <>
@@ -97,6 +97,7 @@ function App() {
       </div>
       <Event />
       <AddEvent />
+      <Discount />
     </>
   );
 }

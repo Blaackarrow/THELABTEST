@@ -181,3 +181,64 @@ VALUES (1, 1),
     (10, 1),
     (10, 2),
     (10, 3);
+
+CREATE TABLE discount (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    percent_value INT NOT NULL,
+    promo_code VARCHAR(80),
+    quantity INT NOT NULL,
+    payment_id INT NOT NULL,
+    CONSTRAINT fk_discount_payment_id FOREIGN KEY (payment_id) REFERENCES payment(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+ALTER TABLE discount
+ADD COLUMN duree_de_validite TIMESTAMP NOT NULL AFTER quantity;
+
+CREATE TABLE user_discount (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    CONSTRAINT fk_user_discount_user_id FOREIGN KEY (user_id) REFERENCES user(id),
+    discount_id INT NOT NULL,
+    CONSTRAINT fk_user_discount_discount_id FOREIGN KEY (discount_id) REFERENCES discount(id), 
+    duree_de_validite TIMESTAMP NOT NULL, 
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE payment (
+    id INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    bill_number VARCHAR(80) NOT NULL,
+    amount DECIMAL NOT NULL,
+    payment_method VARCHAR(80) NOT NULL,
+    status VARCHAR(80) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+INSERT INTO discount (percent_value, promo_code, quantity, payment_id)
+VALUES 
+  (10, 'SUMMER10', 5, 1),
+  (20, 'SALE20', 10, 2),
+  (15, 'DISCOUNT15', 8, 3),
+  (25, 'FALL25', 15, 1),
+  (30, 'HOLIDAY30', 20, 2);
+
+INSERT INTO user_discount (user_id, discount_id)
+VALUES 
+  (1, 1),
+  (2, 2),
+  (3, 3),
+  (1, 4),
+  (2, 5);
+
+INSERT INTO payment (bill_number, amount, payment_method, status)
+VALUES 
+  ('INV12345', 100.50, 'Credit Card', 'Paid'),
+  ('INV67890', 75.25, 'PayPal', 'Pending'),
+  ('INV54321', 50.75, 'Bank Transfer', 'Paid'),
+  ('INV98765', 120.00, 'Cash', 'Pending'),
+  ('INV13579', 90.30, 'Stripe', 'Paid');
+
+

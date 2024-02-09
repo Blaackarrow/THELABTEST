@@ -3,7 +3,7 @@ import "./event.css";
 
 export default function Event() {
   const [events, setEvents] = useState([]);
-  const [disabled, setDisabled] = useState(false);
+  // const [disabled, setDisabled] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   // console.log('selectedEvent', selectedEvent);
@@ -62,9 +62,7 @@ export default function Event() {
             <p>{event.date}</p>
             <p>{event.address}</p>
             <p>QUANTITE : {event.quantity}</p>
-            <button
-              onClick={(e) => handleRegisterAnEvent(e, event.id, 45)}
-            >
+            <button onClick={(e) => handleRegisterAnEvent(e, event.id, 20)}>
               SELECTIONNER
             </button>
           </div>
