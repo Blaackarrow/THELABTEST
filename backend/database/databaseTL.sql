@@ -27,7 +27,33 @@ CREATE TABLE stockEvent (
     CONSTRAINT fk_stockEvent_user_id FOREIGN KEY (user_id) REFERENCES user(id),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) -- Données pour la table 'user'
+);
+CREATE TABLE note (
+    id INT NOT NULL AUTO_INCREMENT,
+    note_physique DECIMAL(5, 2),
+    note_vitesse DECIMAL(5, 2),
+    note_passe DECIMAL(5, 2),
+    note_tir DECIMAL(5, 2),
+    note_dribble DECIMAL(5, 2),
+    note_vista DECIMAL(5, 2),
+    note_cf DECIMAL(5, 2),
+    note_plongeon DECIMAL(5, 2),
+    note_arrets DECIMAL(5, 2),
+    note_dega DECIMAL(5, 2),
+    note_pied_faible DECIMAL(5, 2),
+    note_gen DECIMAL(5, 2),
+    user_id INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (user_id) REFERENCES user(id)
+);
+CREATE TABLE SCORE_CARD (
+    id INT NOT NULL AUTO_INCREMENT,
+    photo_user VARCHAR(250),
+    note_id INT,
+    PRIMARY KEY (id),
+    FOREIGN KEY (note_id) REFERENCES note(id)
+);
+-- Données pour la table 'user'
 INSERT INTO user (
         nom,
         prénom,
@@ -181,3 +207,69 @@ VALUES (1, 1),
     (10, 1),
     (10, 2),
     (10, 3);
+-- Données pour la table 'note'
+INSERT INTO note (
+        note_physique,
+        note_vitesse,
+        note_passe,
+        note_tir,
+        note_dribble,
+        note_vista,
+        note_cf,
+        note_plongeon,
+        note_arrets,
+        note_dega,
+        note_pied_faible,
+        note_gen,
+        user_id
+    )
+VALUES (
+        8.5,
+        9.0,
+        7.5,
+        8.0,
+        9.5,
+        8.0,
+        7.0,
+        8.5,
+        9.0,
+        8.5,
+        9.0,
+        8.5,
+        1
+    ),
+    (
+        7.0,
+        8.0,
+        7.0,
+        6.5,
+        7.5,
+        8.0,
+        6.0,
+        7.0,
+        8.0,
+        7.0,
+        8.0,
+        7.0,
+        2
+    ),
+    (
+        9.0,
+        8.5,
+        9.0,
+        9.5,
+        8.0,
+        9.0,
+        9.0,
+        7.5,
+        8.0,
+        8.5,
+        9.0,
+        8.5,
+        3
+    );
+-- Données pour la table 'score_card'
+INSERT INTO SCORE_CARD (photo_user, note_id)
+VALUES ('chemin/vers/photo1.jpg', 1),
+    ('chemin/vers/photo2.jpg', 2),
+    ('chemin/vers/photo3.jpg', 3);
