@@ -37,6 +37,7 @@ export default function Discount() {
       });
   }, []);
   // console.log("user", user);
+
   useEffect(() => {
     fetch(`http://localhost:${import.meta.env.VITE_API_PORT}/discount`, {
       method: "GET",
@@ -54,15 +55,19 @@ export default function Discount() {
       });
   }, [isLoading]);
 
-  const handleRegisterAnDiscount = (e, user_id, discount_id) => {
+  const handleRegisterAnDiscount = (e, promoId) => {
     e.preventDefault();
+    const correspondingUser = user.find((u) => u.email === email);
     setIsLoading(true);
     fetch(`http://localhost:${import.meta.env.VITE_API_PORT}/userDiscount`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ user_id, discount_id }),
+      body: JSON.stringify({
+        user_id: correspondingUser.id,
+        discount_id: promoId,
+      }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -104,11 +109,7 @@ export default function Discount() {
             // user.map((users) =>
             inputPromo === promo.promo_code ? (
               <div key={index}>
-                <button
-                  onClick={(e) =>
-                    handleRegisterAnDiscount(e, user[1].id, promo.id)
-                  }
-                >
+                <button onClick={(e) => handleRegisterAnDiscount(e, promo.id)}>
                   SELECTIONNER
                 </button>
                 <p>ok</p>
